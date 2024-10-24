@@ -1,7 +1,9 @@
 // ConsoleApplication1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
+#include <string>
+#include <vector>
+#include "OrderBookEntry.h"
 
 // Function to display the options offered to the use
 void printMenu()
@@ -140,33 +142,96 @@ bool processUserOption(int userOption)
     return true;
 }
 
-int main()
+// I learned that the keyword 'auto' allows compiler to deduce the type of var based on the expression used to initialize it.
+double computeAveragePrice(std::vector<OrderBookEntry> &orders)
 {
-    // Status of the app
-    bool status = true;
-
-    while (status)
+    double totalPrice = 0;
+    for (const auto &order : orders)
     {
-
-        // Print Menu Funct.
-        printMenu();
-
-        // Request and receive user option
-        int userOption = getUserOption();
-
-        // Run the app and process the user option
-        status = processUserOption(userOption);
+        totalPrice += order.price;
     }
-    return 0;
+    return totalPrice / orders.size();
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+double computeLowPrice(std::vector<OrderBookEntry> &orders)
+{
+    double lowPrice = orders[0].price; // Start with the first order
+    for (const auto &order : orders)
+    {
+        if (order.price < lowPrice)
+        {
+            lowPrice = order.price;
+        }
+    }
+    return lowPrice;
+}
 
-// Tips for Getting Started:
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+double computeHighPrice(std::vector<OrderBookEntry> &orders)
+{
+    double highPrice = orders[0].price; // Start with the first order
+    for (const auto &order : orders)
+    {
+        if (order.price > highPrice)
+        {
+            highPrice = order.price;
+        }
+    }
+    return highPrice;
+}
+
+double computePriceSpread(std::vector<OrderBookEntry> &orders)
+{
+    double lowPrice = computeLowPrice(orders);
+    double highPrice = computeHighPrice(orders);
+    return highPrice - lowPrice;
+}
+
+int main()
+{
+    // std::vector<double> prices;
+    // std::vector<double> amounts;
+    // std::vector<std::string> timeStamps;
+    // std::vector<std::string> product;
+    // std::vector<OrderBookType> orderTypes;
+
+    //// Status of the app
+    // bool status = true;
+    //
+    // while (status){
+
+    //	// Print Menu Funct.
+    //	printMenu();
+
+    //	// Request and receive user option
+    //	int userOption = getUserOption();
+
+    //	// Run the app and process the user option
+    //	status = processUserOption(userOption);
+    //}
+
+    std::vector<OrderBookEntry> orders;
+
+    orders.push_back(OrderBookEntry{10000, 0.52, "2024/17/05 17:52:24.884492", "BTC/USDT", OrderBookType::bid});
+    orders.push_back(OrderBookEntry{300, 0.99, "2024/10/06 19:32:24.872592", "BTC/ETH", OrderBookType::bid});
+    orders.push_back(OrderBookEntry{2200, 0.31, "2024/17/10 22:11:24.358492", "ETH/BTC", OrderBookType::ask});
+    // chat GPT generated inputs for ease
+    orders.push_back(OrderBookEntry{10000, 0.52, "2024/17/05 17:52:24.884492", "BTC/USDT", OrderBookType::bid});
+    orders.push_back(OrderBookEntry{10020, 0.75, "2024/17/05 17:53:45.112233", "BTC/USDT", OrderBookType::ask});
+    orders.push_back(OrderBookEntry{9995, 0.40, "2024/17/05 17:54:11.987654", "BTC/USDT", OrderBookType::bid});
+    orders.push_back(OrderBookEntry{10010, 1.00, "2024/17/05 17:55:23.456789", "BTC/USDT", OrderBookType::ask});
+    orders.push_back(OrderBookEntry{10050, 0.32, "2024/17/05 17:56:07.123456", "BTC/USDT", OrderBookType::ask});
+    orders.push_back(OrderBookEntry{9980, 0.85, "2024/17/05 17:57:30.654321", "BTC/USDT", OrderBookType::bid});
+
+    for (OrderBookEntry &order : orders)
+    {
+        std::cout << "The price is: " << order.price << std::endl;
+    }
+
+    // Call functions to compute the statistics
+    std::cout << "Average Price: " << computeAveragePrice(orders) << std::endl;
+    std::cout << "Low Price: " << computeLowPrice(orders) << std::endl;
+    std::cout << "High Price: " << computeHighPrice(orders) << std::endl;
+    std::cout << "Price Spread: " << computePriceSpread(orders) << std::endl;
+
+    return 0;
+}
