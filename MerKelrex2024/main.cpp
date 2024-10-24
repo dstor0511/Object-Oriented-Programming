@@ -8,34 +8,39 @@
 
 int main()
 {
-    std::vector<double> prices;
-    std::vector<double> amounts;
-    std::vector<std::string> timeStamps;
-    std::vector<std::string> product;
-    std::vector<OrderBookType> orderTypes;
+    MerkelMain app {};
+    app.printMenu();
 
-    // Status of the app
-    bool status = true;
+    
+    return 0;
+}
+    // std::vector<double> prices;
+    // std::vector<double> amounts;
+    // std::vector<std::string> timeStamps;
+    // std::vector<std::string> product;
+    // std::vector<OrderBookType> orderTypes;
 
-    while (status)
-    {
+    // // Status of the app
+    // bool status = true;
 
-        // Print Menu Funct.
-        MerkelMain::printMenu();
+    // while (status)
+    // {
 
-        // Request and receive user option
-        int userOption = MerkelMain::getUserOption();
+    //     // Print Menu Funct.
+    //     printMenu();
 
-        // Run the app and process the user option
-        status = MerkelMain::processUserOption(userOption);
-    }
+    //     // Request and receive user option
+    //     int userOption = getUserOption();
 
-    std::vector<OrderBookEntry> orders;
+    //     // Run the app and process the user option
+    //     status = processUserOption(userOption);
+    // }
+
+    // std::vector<OrderBookEntry> orders;
 
     // orders.push_back(OrderBookEntry{10000, 0.52, "2024/17/05 17:52:24.884492", "BTC/USDT", OrderBookType::bid});
     // orders.push_back(OrderBookEntry{300, 0.99, "2024/10/06 19:32:24.872592", "BTC/ETH", OrderBookType::bid});
     // orders.push_back(OrderBookEntry{2200, 0.31, "2024/17/10 22:11:24.358492", "ETH/BTC", OrderBookType::ask});
-    // // chat GPT generated inputs for ease
     // orders.push_back(OrderBookEntry{10000, 0.52, "2024/17/05 17:52:24.884492", "BTC/USDT", OrderBookType::bid});
     // orders.push_back(OrderBookEntry{10020, 0.75, "2024/17/05 17:53:45.112233", "BTC/USDT", OrderBookType::ask});
     // orders.push_back(OrderBookEntry{9995, 0.40, "2024/17/05 17:54:11.987654", "BTC/USDT", OrderBookType::bid});
@@ -54,5 +59,3 @@ int main()
     // std::cout << "High Price: " << computeHighPrice(orders) << std::endl;
     // std::cout << "Price Spread: " << computePriceSpread(orders) << std::endl;
 
-    return 0;
-}

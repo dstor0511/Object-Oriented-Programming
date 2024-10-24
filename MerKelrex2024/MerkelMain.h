@@ -7,6 +7,8 @@ class MerkelMain
 public:
     MerkelMain();
 
+    void init();
+
     // Function to display the options offered to the use
     void printMenu();
 

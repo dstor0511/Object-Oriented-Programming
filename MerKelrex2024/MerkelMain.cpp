@@ -3,6 +3,14 @@
 #include <iostream>
 #include <vector>
 
+MerkelMain::MerkelMain(){
+    
+}
+
+void MerkelMain::init(){
+
+}
+
 // Function to display the options offered to the use
 void MerkelMain::printMenu()
 {
@@ -97,37 +105,37 @@ bool MerkelMain::processUserOption(int userOption)
     // Check user input. Option 1
     if (userOption == 1)
     {
-        MerkelMain::printHelp();
+        printHelp();
     }
 
     // Check user input. Option 2
     if (userOption == 2)
     {
-        MerkelMain::printStats();
+        printStats();
     }
 
     // Check user input. Option 3
     if (userOption == 3)
     {
-        MerkelMain::makeOffer();
+        makeOffer();
     }
 
     // Check user input. Option 4
     if (userOption == 4)
     {
-        MerkelMain::makeBid();
+        makeBid();
     }
 
     // Check user input. Option 5
     if (userOption == 5)
     {
-        MerkelMain::printWallet();
+        printWallet();
     }
 
     // Check user input. Option 6
     if (userOption == 6)
     {
-        MerkelMain::nextTimeFrame();
+        nextTimeFrame();
     }
 
     // Check user input. Option 7
