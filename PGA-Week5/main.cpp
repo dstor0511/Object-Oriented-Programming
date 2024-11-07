@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <typeinfo>
 #include "PassengerEntry.h"
 
 // Function to tokenize a CSV line based on a specified separator character
@@ -50,7 +51,7 @@ int main()
 
         while (std::getline(csvFile, line))
         {
-            std::cout << "Read Line: " << line << std::endl;
+            // std::cout << "Read Line: " << line << std::endl;
             tokens = tokenise(line, ',');
 
             if (tokens.size() != 9)
@@ -63,15 +64,15 @@ int main()
             try
             {
 
-                double id = std::stoi(tokens[0]);
-                double age = std::stoi(tokens[1]);
-                double fare = std::stoi(tokens[2]);
-                double sex = std::stoi(tokens[3]);
-                double sibsp = std::stoi(tokens[4]);
-                double parch = std::stoi(tokens[5]);
-                double pclass = std::stoi(tokens[6]);
-                double embarked = std::stoi(tokens[7]);
-                double survived = std::stoi(tokens[8]);
+                int id = std::stoi(tokens[0]);
+                int age = std::stoi(tokens[1]);
+                float fare = std::stof(tokens[2]);
+                int sex = std::stoi(tokens[3]);
+                int sibsp = std::stoi(tokens[4]);
+                int parch = std::stoi(tokens[5]);
+                int pclass = std::stoi(tokens[6]);
+                int embarked = std::stoi(tokens[7]);
+                int survived = std::stoi(tokens[8]);
             }
             catch (const std::exception &e)
             {
