@@ -3,12 +3,34 @@
 #include <iostream>
 #include <vector>
 
-MerkelMain::MerkelMain(){
-    
+MerkelMain::MerkelMain()
+{
 }
 
-void MerkelMain::init(){
+void MerkelMain::init()
+{
+    loadOrderBook();
+    int input;
+    bool status = true;
+    while (status)
+    {
+        printMenu();
+        input = getUserOption();
+        status = processUserOption(input);
+    }
+}
 
+void MerkelMain::loadOrderBook()
+{
+    orders.push_back(OrderBookEntry{10000, 0.52, "2024/17/05 17:52:24.884492", "BTC/USDT", OrderBookType::bid});
+    orders.push_back(OrderBookEntry{300, 0.99, "2024/10/06 19:32:24.872592", "BTC/ETH", OrderBookType::bid});
+    orders.push_back(OrderBookEntry{2200, 0.31, "2024/17/10 22:11:24.358492", "ETH/BTC", OrderBookType::ask});
+    orders.push_back(OrderBookEntry{10000, 0.52, "2024/17/05 17:52:24.884492", "BTC/USDT", OrderBookType::bid});
+    orders.push_back(OrderBookEntry{10020, 0.75, "2024/17/05 17:53:45.112233", "BTC/USDT", OrderBookType::ask});
+    orders.push_back(OrderBookEntry{9995, 0.40, "2024/17/05 17:54:11.987654", "BTC/USDT", OrderBookType::bid});
+    orders.push_back(OrderBookEntry{10010, 1.00, "2024/17/05 17:55:23.456789", "BTC/USDT", OrderBookType::ask});
+    orders.push_back(OrderBookEntry{10050, 0.32, "2024/17/05 17:56:07.123456", "BTC/USDT", OrderBookType::ask});
+    orders.push_back(OrderBookEntry{9980, 0.85, "2024/17/05 17:57:30.654321", "BTC/USDT", OrderBookType::bid});
 }
 
 // Function to display the options offered to the use
@@ -49,7 +71,7 @@ int MerkelMain::getUserOption()
     std::cin >> userOption;
 
     // Print user input
-    std::cout << "You chose " << userOption << std::endl;
+    std::cout << "You chose: " << userOption << std::endl;
 
     return userOption;
 }
@@ -57,38 +79,94 @@ int MerkelMain::getUserOption()
 void MerkelMain::printHelp()
 {
     std::cout << "Help. Your aim is to make money, analyze the market, make bids, and offers" << std::endl;
+    std::cout << " " << std::endl;
 }
 
 void MerkelMain::printStats()
 {
-    std::cout << "Market Looks Good" << std::endl;
+    std::cout << "OrderBook contains: " << orders.size() << " entries" << std::endl;
+    std::cout << "Average Price of " << computeAveragePrice(orders) << std::endl;
+    std::cout << "High price of " << computeHighPrice(orders) << std::endl;
+    std::cout << "Low Price of " << computeLowPrice(orders) << std::endl;
+    std::cout << "Price Spread of " << computePriceSpread(orders) << std::endl;
+    std::cout << " " << std::endl;
 }
 
 void MerkelMain::makeOffer()
 {
     std::cout << "Mark and offer - Enter the amount" << std::endl;
+    std::cout << " " << std::endl;
 }
 
 void MerkelMain::makeBid()
 {
     std::cout << "Make a bid - Enter the amount" << std::endl;
+    std::cout << " " << std::endl;
 }
 
 void MerkelMain::printWallet()
 {
     std::cout << "Your Wallet is Empty" << std::endl;
+    std::cout << " " << std::endl;
 }
 
 void MerkelMain::nextTimeFrame()
 {
     std::cout << "Going to next time frame." << std::endl;
+    std::cout << " " << std::endl;
 }
 
 bool MerkelMain::exit()
 {
     std::cout << "Good Bye!" << std::endl;
+    std::cout << " " << std::endl;
+
     // Close App
     return false;
+}
+
+// Stats functions
+double MerkelMain::computeAveragePrice(std::vector<OrderBookEntry> &orders)
+{
+    double totalPrice = 0;
+    for (const auto &order : orders)
+    {
+        totalPrice += order.price;
+    }
+    return totalPrice / orders.size();
+}
+
+double MerkelMain::computeLowPrice(std::vector<OrderBookEntry> &orders)
+{
+    double lowPrice = orders[0].price; // Start with the first order
+    for (const auto &order : orders)
+    {
+        if (order.price < lowPrice)
+        {
+            lowPrice = order.price;
+        }
+    }
+    return lowPrice;
+}
+
+double MerkelMain::computeHighPrice(std::vector<OrderBookEntry> &orders)
+{
+    double highPrice = orders[0].price; // Start with the first order
+    for (const auto &order : orders)
+    {
+        if (order.price > highPrice)
+        {
+            highPrice = order.price;
+        }
+    }
+    return highPrice;
+}
+
+double MerkelMain::computePriceSpread(std::vector<OrderBookEntry> &orders)
+{
+    double lowPrice = MerkelMain::computeLowPrice(orders);
+    double highPrice = MerkelMain::computeHighPrice(orders);
+    return highPrice - lowPrice;
 }
 
 // Function to process the option of the user and returns True, for the app to continue running
@@ -146,48 +224,4 @@ bool MerkelMain::processUserOption(int userOption)
 
     // Continue for valid menu options
     return true;
-}
-
-// I learned that the keyword 'auto' allows compiler to deduce the type of var based on the expression used to initialize it.
-double MerkelMain::computeAveragePrice(std::vector<OrderBookEntry> &orders)
-{
-    double totalPrice = 0;
-    for (const auto &order : orders)
-    {
-        totalPrice += order.price;
-    }
-    return totalPrice / orders.size();
-}
-
-double MerkelMain::computeLowPrice(std::vector<OrderBookEntry> &orders)
-{
-    double lowPrice = orders[0].price; // Start with the first order
-    for (const auto &order : orders)
-    {
-        if (order.price < lowPrice)
-        {
-            lowPrice = order.price;
-        }
-    }
-    return lowPrice;
-}
-
-double MerkelMain::computeHighPrice(std::vector<OrderBookEntry> &orders)
-{
-    double highPrice = orders[0].price; // Start with the first order
-    for (const auto &order : orders)
-    {
-        if (order.price > highPrice)
-        {
-            highPrice = order.price;
-        }
-    }
-    return highPrice;
-}
-
-double MerkelMain::computePriceSpread(std::vector<OrderBookEntry> &orders)
-{
-    double lowPrice = MerkelMain::computeLowPrice(orders);
-    double highPrice = MerkelMain::computeHighPrice(orders);
-    return highPrice - lowPrice;
 }

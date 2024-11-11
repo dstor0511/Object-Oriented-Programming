@@ -2,6 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <typeinfo>
+#include "PassengerEntry.h"
 
 // Function to tokenize a CSV line based on a specified separator character
 std::vector<std::string> tokenise(std::string csvLine, char separator)
@@ -38,18 +40,10 @@ std::vector<std::string> tokenise(std::string csvLine, char separator)
 
 int main()
 {
-    // std::vector<std::string> tokens;
-    // std::string s = "10000,0.52,2024/17/05 17:52:24.884492,BTC/USDT,OrderBookType::bid";
-    // tokens = tokenize(s, ',');
-
-    // for (std::string &token : tokens)
-    // {
-    //     std::cout << token << std::endl;
-    // }
-
-    std::ifstream csvFile{"dataFile.csv"};
+    std::ifstream csvFile{"train_and_test2.csv"};
     std::string line;
     std::vector<std::string> tokens;
+    int readLines = 0;
 
     if (csvFile.is_open())
     {
@@ -57,10 +51,10 @@ int main()
 
         while (std::getline(csvFile, line))
         {
-            std::cout << "Read Line: " << line << std::endl;
+            // std::cout << "Read Line: " << line << std::endl;
             tokens = tokenise(line, ',');
 
-            if (tokens.size() != 5)
+            if (tokens.size() != 9)
             {
                 std::cout << "Bad line" << std::endl;
                 continue;
@@ -69,15 +63,28 @@ int main()
             // convert string to double for the last two tokens of each line
             try
             {
-                double price = std::stod(tokens[3]);
-                double amount = std::stod(tokens[4]);
 
-                std::cout << price << ":" << amount << std::endl;
+                int id = std::stoi(tokens[0]);
+                int age = std::stoi(tokens[1]);
+                float fare = std::stof(tokens[2]);
+                int sex = std::stoi(tokens[3]);
+                int sibsp = std::stoi(tokens[4]);
+                int parch = std::stoi(tokens[5]);
+                int pclass = std::stoi(tokens[6]);
+                int embarked = std::stoi(tokens[7]);
+                int survived = std::stoi(tokens[8]);
             }
             catch (const std::exception &e)
             {
-                std::cout << "Bad float!" << tokens[3] << std::endl;
-                std::cout << "Bad float!" << tokens[4] << std::endl;
+                std::cout << "Bad int!" << tokens[0] << std::endl;
+                std::cout << "Bad int!" << tokens[1] << std::endl;
+                std::cout << "Bad int!" << tokens[2] << std::endl;
+                std::cout << "Bad int!" << tokens[3] << std::endl;
+                std::cout << "Bad int!" << tokens[4] << std::endl;
+                std::cout << "Bad int!" << tokens[5] << std::endl;
+                std::cout << "Bad int!" << tokens[6] << std::endl;
+                std::cout << "Bad int!" << tokens[7] << std::endl;
+                std::cout << "Bad int!" << tokens[8] << std::endl;
 
                 break;
             }
