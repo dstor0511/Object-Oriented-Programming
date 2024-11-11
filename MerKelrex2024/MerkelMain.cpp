@@ -1,5 +1,6 @@
 #include "MerkelMain.h"
 #include "OrderBookEntry.h"
+#include "CSVReader.h"
 #include <iostream>
 #include <vector>
 
@@ -22,15 +23,7 @@ void MerkelMain::init()
 
 void MerkelMain::loadOrderBook()
 {
-    orders.push_back(OrderBookEntry{10000, 0.52, "2024/17/05 17:52:24.884492", "BTC/USDT", OrderBookType::bid});
-    orders.push_back(OrderBookEntry{300, 0.99, "2024/10/06 19:32:24.872592", "BTC/ETH", OrderBookType::bid});
-    orders.push_back(OrderBookEntry{2200, 0.31, "2024/17/10 22:11:24.358492", "ETH/BTC", OrderBookType::ask});
-    orders.push_back(OrderBookEntry{10000, 0.52, "2024/17/05 17:52:24.884492", "BTC/USDT", OrderBookType::bid});
-    orders.push_back(OrderBookEntry{10020, 0.75, "2024/17/05 17:53:45.112233", "BTC/USDT", OrderBookType::ask});
-    orders.push_back(OrderBookEntry{9995, 0.40, "2024/17/05 17:54:11.987654", "BTC/USDT", OrderBookType::bid});
-    orders.push_back(OrderBookEntry{10010, 1.00, "2024/17/05 17:55:23.456789", "BTC/USDT", OrderBookType::ask});
-    orders.push_back(OrderBookEntry{10050, 0.32, "2024/17/05 17:56:07.123456", "BTC/USDT", OrderBookType::ask});
-    orders.push_back(OrderBookEntry{9980, 0.85, "2024/17/05 17:57:30.654321", "BTC/USDT", OrderBookType::bid});
+    orders = CSVReader::readCSV("dataFile.csv");
 }
 
 // Function to display the options offered to the use

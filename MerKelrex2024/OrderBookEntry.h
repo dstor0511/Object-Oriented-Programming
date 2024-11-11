@@ -5,7 +5,8 @@
 enum class OrderBookType
 {
     bid,
-    ask
+    ask,
+    unknown
 };
 
 // OrderBookEntry class to store a full row of data
@@ -17,6 +18,8 @@ public:
                    std::string _timeStamp,
                    std::string _product,
                    OrderBookType _orderType);
+
+    static OrderBookType stringToOrderBookType(std::string s);
 
     double price;
     double amount;

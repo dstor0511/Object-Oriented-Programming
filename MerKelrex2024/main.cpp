@@ -5,6 +5,7 @@
 #include <vector>
 #include "OrderBookEntry.h"
 #include "MerkelMain.h"
+#include "CSVReader.h"
 
 int main()
 {
