@@ -45,10 +45,10 @@ int main()
     std::vector<std::string> tokens;
     int readLines = 0;
 
+    std::vector<PassengerEntry> passengerEntries;
+
     if (csvFile.is_open())
     {
-        std::cout << "File Open" << std::endl;
-
         while (std::getline(csvFile, line))
         {
             // std::cout << "Read Line: " << line << std::endl;
@@ -56,7 +56,7 @@ int main()
 
             if (tokens.size() != 9)
             {
-                std::cout << "Bad line" << std::endl;
+                std::cout << "Bad line " << tokens[0] << std::endl;
                 continue;
             }
 
@@ -73,6 +73,8 @@ int main()
                 int pclass = std::stoi(tokens[6]);
                 int embarked = std::stoi(tokens[7]);
                 int survived = std::stoi(tokens[8]);
+
+                passengerEntries.push_back(PassengerEntry{id, age, fare, sex, sibsp, parch, pclass, embarked, survived});
             }
             catch (const std::exception &e)
             {
@@ -95,6 +97,8 @@ int main()
     {
         std::cout << "Couldn't open file" << std::endl;
     }
+
+    std::cout << "Read " << passengerEntries.size() << " lines" << std::endl;
 
     return 0;
 }
