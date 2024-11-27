@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "OrderBookEntry.h"
+#include "OrderBook.h"
 
 class MerkelMain
 {
@@ -20,8 +21,6 @@ private:
     void loadOrderBook();
     void printHelp();
     void printStats();
-    // vector used to store orderbook entries in a class scope
-    std::vector<OrderBookEntry> orders;
 
     void makeOffer();
     void makeBid();
@@ -33,9 +32,13 @@ private:
     // or False to close the app, when 7 is selected.
     bool processUserOption(int userOption);
 
+    std::string currentTime;
+
+    OrderBook orderBook{"dataFile.csv"};
+
     // Stats functions
-    double computeAveragePrice(std::vector<OrderBookEntry> &orders);
-    double computeLowPrice(std::vector<OrderBookEntry> &orders);
-    double computeHighPrice(std::vector<OrderBookEntry> &orders);
-    double computePriceSpread(std::vector<OrderBookEntry> &orders);
+    // double computeAveragePrice(std::vector<OrderBookEntry> &orders);
+    // double computeLowPrice(std::vector<OrderBookEntry> &orders);
+    // double computeHighPrice(std::vector<OrderBookEntry> &orders);
+    // double computePriceSpread(std::vector<OrderBookEntry> &orders);
 };

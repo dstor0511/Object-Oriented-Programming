@@ -1,6 +1,5 @@
 #include "MerkelMain.h"
 #include "OrderBookEntry.h"
-#include "CSVReader.h"
 #include <iostream>
 #include <vector>
 
@@ -10,8 +9,8 @@ MerkelMain::MerkelMain()
 
 void MerkelMain::init()
 {
-    loadOrderBook();
     int input;
+    currentTime = orderBook.getEarliestTime();
     bool status = true;
     while (status)
     {
@@ -19,11 +18,6 @@ void MerkelMain::init()
         input = getUserOption();
         status = processUserOption(input);
     }
-}
-
-void MerkelMain::loadOrderBook()
-{
-    orders = CSVReader::readCSV("dataFile.csv");
 }
 
 // Function to display the options offered to the use
@@ -51,6 +45,8 @@ void MerkelMain::printMenu()
     std::cout << "7: Exit" << std::endl;
 
     std::cout << "--------------------" << std::endl;
+
+    std::cout << "Current Time is: " << currentTime << std::endl;
 }
 
 // Function to receive the input of the user for the main menu
@@ -77,12 +73,19 @@ void MerkelMain::printHelp()
 
 void MerkelMain::printStats()
 {
-    std::cout << "OrderBook contains: " << orders.size() << " entries" << std::endl;
-    std::cout << "Average Price of " << computeAveragePrice(orders) << std::endl;
-    std::cout << "High price of " << computeHighPrice(orders) << std::endl;
-    std::cout << "Low Price of " << computeLowPrice(orders) << std::endl;
-    std::cout << "Price Spread of " << computePriceSpread(orders) << std::endl;
-    std::cout << " " << std::endl;
+    for (std::string const p : orderBook.getKnownProducts())
+    {
+        std::cout << "Product: " << p << std::endl;
+        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+        std::cout << "Asks seen: " << entries.size() << std::endl;
+        std::cout << "Max ask: " << orderBook.getHighPrice(entries) << std::endl;
+        std::cout << "Average ask: " << orderBook.getAvgPrice(entries) << std::endl;
+        std::cout << "Price Spread of " << orderBook.getPriceSpread(entries) << std::endl;
+        std::cout << "Min ask: " << orderBook.getLowPrice(entries) << std::endl;
+        std::cout << " " << std::endl;
+    }
+
+    // std::cout << "Price Spread of " << computePriceSpread(orders) << std::endl;
 }
 
 void MerkelMain::makeOffer()
@@ -107,6 +110,7 @@ void MerkelMain::nextTimeFrame()
 {
     std::cout << "Going to next time frame." << std::endl;
     std::cout << " " << std::endl;
+    currentTime = orderBook.getNextTime(currentTime);
 }
 
 bool MerkelMain::exit()
@@ -116,50 +120,6 @@ bool MerkelMain::exit()
 
     // Close App
     return false;
-}
-
-// Stats functions
-double MerkelMain::computeAveragePrice(std::vector<OrderBookEntry> &orders)
-{
-    double totalPrice = 0;
-    for (const auto &order : orders)
-    {
-        totalPrice += order.price;
-    }
-    return totalPrice / orders.size();
-}
-
-double MerkelMain::computeLowPrice(std::vector<OrderBookEntry> &orders)
-{
-    double lowPrice = orders[0].price; // Start with the first order
-    for (const auto &order : orders)
-    {
-        if (order.price < lowPrice)
-        {
-            lowPrice = order.price;
-        }
-    }
-    return lowPrice;
-}
-
-double MerkelMain::computeHighPrice(std::vector<OrderBookEntry> &orders)
-{
-    double highPrice = orders[0].price; // Start with the first order
-    for (const auto &order : orders)
-    {
-        if (order.price > highPrice)
-        {
-            highPrice = order.price;
-        }
-    }
-    return highPrice;
-}
-
-double MerkelMain::computePriceSpread(std::vector<OrderBookEntry> &orders)
-{
-    double lowPrice = MerkelMain::computeLowPrice(orders);
-    double highPrice = MerkelMain::computeHighPrice(orders);
-    return highPrice - lowPrice;
 }
 
 // Function to process the option of the user and returns True, for the app to continue running
