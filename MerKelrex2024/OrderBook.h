@@ -18,51 +18,20 @@ public:
     // return vector of orders according to the sent filters
     std::vector<OrderBookEntry> getOrders(OrderBookType type, std::string product, std::string timestamp);
 
+    // Returns earliest time in the OrderBook
     std::string getEarliestTime();
+
+    // Returns the next time after the sent time in the orderBook
+    std::string getNextTime(std::string timeStamp);
 
     static double getHighPrice(std::vector<OrderBookEntry> &orders);
     static double getLowPrice(std::vector<OrderBookEntry> &orders);
+    static double getAvgPrice(std::vector<OrderBookEntry> &orders);
+    static double getPriceSpread(std::vector<OrderBookEntry> &orders);
 
 private:
     std::vector<OrderBookEntry> orders;
 };
-
-// // Stats functions
-// double MerkelMain::computeAveragePrice(std::vector<OrderBookEntry> &orders)
-// {
-//     double totalPrice = 0;
-//     for (const auto &order : orders)
-//     {
-//         totalPrice += order.price;
-//     }
-//     return totalPrice / orders.size();
-// }
-
-// double MerkelMain::computeLowPrice(std::vector<OrderBookEntry> &orders)
-// {
-//     double lowPrice = orders[0].price; // Start with the first order
-//     for (const auto &order : orders)
-//     {
-//         if (order.price < lowPrice)
-//         {
-//             lowPrice = order.price;
-//         }
-//     }
-//     return lowPrice;
-// }
-
-// double MerkelMain::computeHighPrice(std::vector<OrderBookEntry> &orders)
-// {
-//     double highPrice = orders[0].price; // Start with the first order
-//     for (const auto &order : orders)
-//     {
-//         if (order.price > highPrice)
-//         {
-//             highPrice = order.price;
-//         }
-//     }
-//     return highPrice;
-// }
 
 // double MerkelMain::computePriceSpread(std::vector<OrderBookEntry> &orders)
 // {

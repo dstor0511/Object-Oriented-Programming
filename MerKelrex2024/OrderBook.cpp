@@ -50,7 +50,7 @@ double OrderBook::getHighPrice(std::vector<OrderBookEntry> &orders)
     {
         if (e.price > max)
             max = e.price;
-    }
+    };
     return max;
 }
 
@@ -62,11 +62,68 @@ double OrderBook::getLowPrice(std::vector<OrderBookEntry> &orders)
     {
         if (e.price < min)
             min = e.price;
-    }
+    };
     return min;
+}
+
+// This function iterates through the provided vector of `OrderBookEntry` objects,
+// sums up their prices, and then divides the total by the number
+// of orders to compute the average price.
+
+double OrderBook::getAvgPrice(std::vector<OrderBookEntry> &orders)
+{
+    double totalPrice = 0;
+    for (OrderBookEntry &e : orders)
+    {
+        totalPrice += e.price;
+    }
+    return totalPrice / orders.size();
+}
+
+// This function iterates through the provided vector of `OrderBookEntry`
+// objects to find the minimum and maximum prices.
+// It then calculates the spread by subtracting the minimum price from the maximum price.
+
+double OrderBook::getPriceSpread(std::vector<OrderBookEntry> &orders)
+{
+    double minPrice = orders[0].price;
+    double maxPrice = orders[0].price;
+
+    for (OrderBookEntry &e : orders)
+    {
+        if (e.price < minPrice)
+        {
+            minPrice = e.price;
+        }
+        if (e.price > maxPrice)
+        {
+            maxPrice = e.price;
+        }
+    }
+
+    return maxPrice - minPrice;
 }
 
 std::string OrderBook::getEarliestTime()
 {
     return orders[0].timeStamp;
+}
+
+std::string OrderBook::getNextTime(std::string timeStamp)
+{
+    std::string next_timestamp = "";
+
+    for (OrderBookEntry &e : orders)
+    {
+        if (e.timeStamp > timeStamp)
+        {
+            next_timestamp = e.timeStamp;
+            break;
+        };
+    }
+    if (next_timestamp == "")
+    {
+        next_timestamp = orders[0].timeStamp;
+    }
+    return next_timestamp;
 }

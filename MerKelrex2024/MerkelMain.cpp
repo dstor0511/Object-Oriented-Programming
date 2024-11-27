@@ -76,19 +76,16 @@ void MerkelMain::printStats()
     for (std::string const p : orderBook.getKnownProducts())
     {
         std::cout << "Product: " << p << std::endl;
-        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, "2020/03/17 17:01:24.884492");
+        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
         std::cout << "Asks seen: " << entries.size() << std::endl;
         std::cout << "Max ask: " << orderBook.getHighPrice(entries) << std::endl;
-        std::cout << "MIn ask: " << orderBook.getLowPrice(entries) << std::endl;
+        std::cout << "Average ask: " << orderBook.getAvgPrice(entries) << std::endl;
+        std::cout << "Price Spread of " << orderBook.getPriceSpread(entries) << std::endl;
+        std::cout << "Min ask: " << orderBook.getLowPrice(entries) << std::endl;
         std::cout << " " << std::endl;
     }
 
-    // std::cout << "OrderBook contains: " << orders.size() << " entries" << std::endl;
-    // std::cout << "Average Price of " << computeAveragePrice(orders) << std::endl;
-    // std::cout << "High price of " << computeHighPrice(orders) << std::endl;
-    // std::cout << "Low Price of " << computeLowPrice(orders) << std::endl;
     // std::cout << "Price Spread of " << computePriceSpread(orders) << std::endl;
-    // std::cout << " " << std::endl;
 }
 
 void MerkelMain::makeOffer()
@@ -113,6 +110,7 @@ void MerkelMain::nextTimeFrame()
 {
     std::cout << "Going to next time frame." << std::endl;
     std::cout << " " << std::endl;
+    currentTime = orderBook.getNextTime(currentTime);
 }
 
 bool MerkelMain::exit()
