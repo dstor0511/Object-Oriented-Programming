@@ -1,6 +1,5 @@
 #include "MerkelMain.h"
 #include "OrderBookEntry.h"
-#include "CSVReader.h"
 #include <iostream>
 #include <vector>
 
@@ -11,6 +10,7 @@ MerkelMain::MerkelMain()
 void MerkelMain::init()
 {
     int input;
+    currentTime = orderBook.getEarliestTime();
     bool status = true;
     while (status)
     {
@@ -45,6 +45,8 @@ void MerkelMain::printMenu()
     std::cout << "7: Exit" << std::endl;
 
     std::cout << "--------------------" << std::endl;
+
+    std::cout << "Current Time is: " << currentTime << std::endl;
 }
 
 // Function to receive the input of the user for the main menu

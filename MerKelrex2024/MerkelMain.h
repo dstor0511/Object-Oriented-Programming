@@ -32,6 +32,8 @@ private:
     // or False to close the app, when 7 is selected.
     bool processUserOption(int userOption);
 
+    std::string currentTime;
+
     OrderBook orderBook{"dataFile.csv"};
 
     // Stats functions
