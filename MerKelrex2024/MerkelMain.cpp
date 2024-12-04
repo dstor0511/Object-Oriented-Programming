@@ -2,6 +2,7 @@
 #include "OrderBookEntry.h"
 #include <iostream>
 #include <vector>
+#include <limits>
 
 MerkelMain::MerkelMain()
 {
@@ -84,13 +85,20 @@ void MerkelMain::printStats()
         std::cout << "Min ask: " << orderBook.getLowPrice(entries) << std::endl;
         std::cout << " " << std::endl;
     }
-
-    // std::cout << "Price Spread of " << computePriceSpread(orders) << std::endl;
 }
 
-void MerkelMain::makeOffer()
+void MerkelMain::makeAsk()
 {
-    std::cout << "Mark and offer - Enter the amount" << std::endl;
+    std::cout << "Mark and ask - Enter the amount: product,price,amount" << std::endl;
+    std::cout << "eg:" << std::endl;
+    std::cout << "ETCH/BTC,200,0,5" << std::endl;
+
+    std::string input;
+
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    std::getline(std::cin, input);
+    std::cout << "You typed: " << input << std::endl;
     std::cout << " " << std::endl;
 }
 
@@ -148,7 +156,7 @@ bool MerkelMain::processUserOption(int userOption)
     // Check user input. Option 3
     if (userOption == 3)
     {
-        makeOffer();
+        makeAsk();
     }
 
     // Check user input. Option 4

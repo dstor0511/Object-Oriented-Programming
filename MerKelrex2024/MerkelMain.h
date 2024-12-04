@@ -22,7 +22,7 @@ private:
     void printHelp();
     void printStats();
 
-    void makeOffer();
+    void makeAsk();
     void makeBid();
     void printWallet();
     void nextTimeFrame();
@@ -35,10 +35,4 @@ private:
     std::string currentTime;
 
     OrderBook orderBook{"dataFile.csv"};
-
-    // Stats functions
-    // double computeAveragePrice(std::vector<OrderBookEntry> &orders);
-    // double computeLowPrice(std::vector<OrderBookEntry> &orders);
-    // double computeHighPrice(std::vector<OrderBookEntry> &orders);
-    // double computePriceSpread(std::vector<OrderBookEntry> &orders);
 };
