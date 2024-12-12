@@ -24,6 +24,10 @@ public:
     // Returns the next time after the sent time in the orderBook
     std::string getNextTime(std::string timeStamp);
 
+    void insertOrder(OrderBookEntry &order);
+
+    std::vector<OrderBookEntry> matchAskstoBids(std::string product, std::string timeStamp);
+
     static double getHighPrice(std::vector<OrderBookEntry> &orders);
     static double getLowPrice(std::vector<OrderBookEntry> &orders);
     static double getAvgPrice(std::vector<OrderBookEntry> &orders);
@@ -32,10 +36,3 @@ public:
 private:
     std::vector<OrderBookEntry> orders;
 };
-
-// double MerkelMain::computePriceSpread(std::vector<OrderBookEntry> &orders)
-// {
-//     double lowPrice = MerkelMain::computeLowPrice(orders);
-//     double highPrice = MerkelMain::computeHighPrice(orders);
-//     return highPrice - lowPrice;
-// }

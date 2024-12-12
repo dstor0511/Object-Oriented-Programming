@@ -1,5 +1,7 @@
 #include "OrderBook.h"
 #include "CSVReader.h"
+#include <algorithm>
+#include "OrderBookEntry.h"
 
 OrderBook::OrderBook(std::string filename)
 {
@@ -126,4 +128,69 @@ std::string OrderBook::getNextTime(std::string timeStamp)
         next_timestamp = orders[0].timeStamp;
     }
     return next_timestamp;
+}
+
+void OrderBook::insertOrder(OrderBookEntry &order)
+{
+    orders.push_back(order);
+
+    std::sort(orders.begin(), orders.end(), OrderBookEntry::compareByTimeStamp);
+}
+
+std::vector<OrderBookEntry> OrderBook::matchAskstoBids(std::string product, std::string timeStamp)
+{
+    std::vector<OrderBookEntry> asks = getOrders(OrderBookType::ask, product, timeStamp);
+
+    std::vector<OrderBookEntry> bids = getOrders(OrderBookType::bid, product, timeStamp);
+
+    std::vector<OrderBookEntry> sales;
+
+    std::sort(asks.begin(), asks.end(), OrderBookEntry::compareByPriceAsc);
+    std::sort(bids.begin(), bids.end(), OrderBookEntry::compareByPriceDesc);
+
+    for (OrderBookEntry &ask : asks)
+    {
+        for (OrderBookEntry &bid : bids)
+        {
+
+            if (bid.price >= ask.price)
+            {
+                OrderBookEntry sale{ask.price,
+                                    0,
+                                    timeStamp,
+                                    product,
+                                    OrderBookType::sale};
+
+                if (bid.amount == ask.amount)
+                {
+                    sale.amount = ask.amount;
+                    sales.push_back(sale);
+                    bid.amount = 0;
+
+                    break;
+                }
+
+                if (bid.amount > ask.amount)
+                {
+
+                    sale.amount = ask.amount;
+                    sales.push_back(sale);
+                    bid.amount = bid.amount - ask.amount;
+                    break;
+                }
+
+                if (bid.amount < ask.amount)
+                {
+
+                    sale.amount = bid.amount;
+                    sales.push_back(sale);
+
+                    ask.amount = ask.amount - bid.amount;
+                    bid.amount = 0;
+                    continue;
+                }
+            }
+        }
+    }
+    return sales;
 }
