@@ -92,26 +92,45 @@
 //     return 0;
 // }
 
+// #include <iostream>
+// int sum(int num1, int num2)
+// {
+//     return num1 + num2;
+// }
+
+// int main()
+// {
+//     try
+//     {
+//         int result = sum(5, 5);
+//         if (result < 20)
+//         {
+//             throw result;
+//         }
+//         std::cout << "Here is the result" << std::endl;
+//     }
+//     catch (int &result)
+//     {
+//         std::cout << "The sum should be at least 20" << std::endl;
+//     }
+//     return 0;
+// };
 #include <iostream>
-int sum(int num1, int num2)
-{
-    return num1 + num2;
-}
+#include <vector>
+#include <string>
 
 int main()
 {
-    try
+    std::vector<std::string> strings{};
+    strings.push_back("A");
+    strings.push_back("B");
+    strings.push_back("C");
+    for (const std::string &s : strings)
     {
-        int result = sum(5, 5);
-        if (result < 20)
-        {
-            throw result;
-        }
-        std::cout << "Here is the result" << std::endl;
+        s.push_back('D');
     }
-    catch (int &result)
+    for (std::string &s : strings)
     {
-        std::cout << "The sum should be at least 20" << std::endl;
+        std::cout << s << std::endl;
     }
-    return 0;
-};
+}
