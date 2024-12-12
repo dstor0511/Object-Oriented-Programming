@@ -9,12 +9,15 @@
 #include "MerkelMain.h"
 #include "OrderBookEntry.h"
 
-int main() {
+// The main function of the program
+int main()
+{
+  // Create an instance of MerkelMain
   MerkelMain app{};
+
+  // Initialize the application
   app.init();
 
+  // Return 0 to indicate successful execution
   return 0;
 }
-
-
-// This is a test comment to commit in git 
