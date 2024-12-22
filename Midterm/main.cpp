@@ -4,12 +4,22 @@
 
 #include "WeatherEntry.h"
 #include "CSVReader.h"
+#include "WeatherMain.h"
 
+// The main function of the program
 int main()
 {
-    std::vector<WeatherEntry> entries;
+    // Create an instance of WeatherMain
+    WeatherMain app{};
 
-    // Test CSVReader readCSV function
-    CSVReader::readCSV("weatherData.csv");
+    // Initialize the application
+    // app.initialize();
+
+    std::vector<WeatherEntry> entries = CSVReader::readCSV("weatherData.csv");
+
+    // Compute and print candlestick data
+    app.computeAndPrintCandlestickData(entries);
+
+    // Return 0 to indicate successful execution
     return 0;
 }
