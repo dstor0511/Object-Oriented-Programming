@@ -29,10 +29,10 @@ Dec 20
 Dec 22
 
 - Addition of WeatherMain Class:
--     WeatherMain : Introduced the WeatherMain class and implementation to handle the main functionality of the weather application, including methods for initialization, displaying menu options, getting user input, and computing candlestick data for weather entries. 
+- WeatherMain : Introduced the WeatherMain class and implementation to handle the main functionality of the weather application, including methods for initialization, displaying menu options, getting user input, and computing candlestick data for weather entries. 
 
 - Integration of WeatherMain Class:
--     main.cpp: Updated the main function to create an instance of WeatherMain, initialize the application, and compute and print candlestick data using the weather entries read from the CSV file.
+- main.cpp: Updated the main function to create an instance of WeatherMain, initialize the application, and compute and print candlestick data using the weather entries read from the CSV file.
 
 - Improvements to CSVReader Class:
--     Midterm/CSVReader.cpp: Enhanced error handling in the stringsToOBE method by adding a continue statement to skip over invalid tokens during the conversion process.
+- Midterm/CSVReader.cpp: Enhanced error handling in the stringsToOBE method by adding a continue statement to skip over invalid tokens during the conversion process.
