@@ -25,3 +25,14 @@ Dec 20
 -   Finally, the CSVReader started working as expected. There is an error in line 206, not sure what the error is, but most of the file is working as expected. No other issues, sprint completed successfully.
 
 -   Improvements to the efficiency can be made, specially with 28 variables to work with, but we can do that later. :)
+
+Dec 22
+
+- Addition of WeatherMain Class:
+-     WeatherMain : Introduced the WeatherMain class and implementation to handle the main functionality of the weather application, including methods for initialization, displaying menu options, getting user input, and computing candlestick data for weather entries. 
+
+- Integration of WeatherMain Class:
+-     main.cpp: Updated the main function to create an instance of WeatherMain, initialize the application, and compute and print candlestick data using the weather entries read from the CSV file.
+
+- Improvements to CSVReader Class:
+-     Midterm/CSVReader.cpp: Enhanced error handling in the stringsToOBE method by adding a continue statement to skip over invalid tokens during the conversion process.
