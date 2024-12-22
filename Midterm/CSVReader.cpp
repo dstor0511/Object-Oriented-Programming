@@ -103,7 +103,6 @@ WeatherEntry CSVReader::stringsToOBE(std::vector<std::string> tokens)
         throw std::exception{};
     }
 
-    // Possible improvemnt to code below
     try
     {
         for (size_t i = 1; i <= 28; ++i)
@@ -204,6 +203,7 @@ WeatherEntry CSVReader::stringsToOBE(std::vector<std::string> tokens)
             {
                 // Print an error message if the conversion fails
                 std::cerr << "Error at line " << __LINE__ << ": " << e.what() << " Token: " << tokens[i] << std::endl;
+                continue;
             }
         }
     }
@@ -216,6 +216,5 @@ WeatherEntry CSVReader::stringsToOBE(std::vector<std::string> tokens)
 
     // Create an WeatherEntry object using the parsed values
     WeatherEntry e{tokens[0], atTemperature, beTemperature, bgTemperature, chTemperature, czTemperature, deTemperature, dkTemperature, eeTemperature, esTemperature, fiTemperature, frTemperature, gbTemperature, grTemperature, hrTemperature, huTemperature, ieTemperature, itTemperature, ltTemperature, luTemperature, lvTemperature, nlTemperature, noTemperature, plTemperature, ptTemperature, roTemperature, seTemperature, siTemperature, skTemperature};
-
     return e;
 };
