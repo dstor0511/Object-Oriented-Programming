@@ -28,14 +28,20 @@ Dec 20
 
 Dec 22
 
-Addition of WeatherMain Class:
+-   Addition of WeatherMain Class
 
-WeatherMain : Introduced the WeatherMain class and implementation to handle the main functionality of the weather application, including methods for initialization, displaying menu options, getting user input, and computing candlestick data for weather entries.
+    -   WeatherMain : Introduced the WeatherMain class and implementation to handle the main functionality of the weather application, including methods for initialization, displaying menu options, getting user input, and computing candlestick data for weather entries.
 
-Integration of WeatherMain Class:
+-   Integration of WeatherMain Class
 
-main.cpp: Updated the main function to create an instance of WeatherMain, initialize the application, and compute and print candlestick data using the weather entries read from the CSV file.
+    -   main.cpp: Updated the main function to create an instance of WeatherMain, initialize the application, and compute and print candlestick data using the weather entries read from the CSV file.
 
-Improvements to CSVReader Class:
+-   Improvements to CSVReader Class:
+    -   Midterm/CSVReader.cpp: Enhanced error handling in the stringsToOBE method by adding a continue statement to skip over invalid tokens during the conversion process.
 
-Midterm/CSVReader.cpp: Enhanced error handling in the stringsToOBE method by adding a continue statement to skip over invalid tokens during the conversion process.
+Dec 23:
+
+-   Implemented filtering by year to the WeatherMain class. It was tested and is workin almost fine. There is one error and its that the open values is not being calculated properly while filtering by year. Not sure why, but I'll look into it.
+-   Started using the init funciton to make the whole app start running.
+-   Im still not able to filter by country, Im not sure how to do it.
+-   For the next step, task 2. I'll take a look into https://github.com/KC1922/StockMarketDisplay-CPP to see how I can implement the candlestick charts.

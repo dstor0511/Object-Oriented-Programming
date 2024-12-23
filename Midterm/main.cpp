@@ -13,12 +13,7 @@ int main()
     WeatherMain app{};
 
     // Initialize the application
-    // app.initialize();
-
-    std::vector<WeatherEntry> entries = CSVReader::readCSV("weatherData.csv");
-
-    // Compute and print candlestick data
-    app.computeAndPrintCandlestickData(entries);
+    app.initialize();
 
     // Return 0 to indicate successful execution
     return 0;

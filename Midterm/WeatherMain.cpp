@@ -5,16 +5,45 @@ WeatherMain::WeatherMain() {}
 
 void WeatherMain::initialize()
 {
-    std::string input;
-    // Set the current time to the earliest time in the order book
-    // currentTime = orderBook.getEarliestTime();
+    std::vector<WeatherEntry> entries = CSVReader::readCSV("weatherData.csv");
     bool status = true;
     while (status)
     {
         // Display the menu options
         printMenu();
         // Get the user's option
-        getUserOption();
+        UserInput userInput = getUserOption();
+
+        // Filter entries based on user input
+        std::vector<WeatherEntry> filteredEntries;
+        for (const auto &entry : entries)
+        {
+            try
+            {
+                int year = std::stoi(entry.time.substr(0, 4));
+                if (year == userInput.year)
+                {
+                    filteredEntries.push_back(entry);
+                }
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+                continue;
+            }
+        }
+
+        // Compute and print candlestick data for the filtered entries
+        computeAndPrintCandlestickData(filteredEntries);
+
+        // Ask the user if they want to continue
+        std::cout << "Do you want to continue? (yes/no): ";
+        std::string response;
+        std::cin >> response;
+        if (response != "yes")
+        {
+            status = false;
+        }
     }
 }
 
@@ -56,45 +85,6 @@ WeatherMain::UserInput WeatherMain::getUserOption()
 
     return input; // Return the user's input
 }
-/*
-void WeatherMain::computeAndPrintCandlestickData(const std::vector<WeatherEntry> &entries)
-{
-    std::map<int, std::vector<double>> yearlyTemperatures;
-
-    // Group temperatures by year
-    for (const auto &entry : entries)
-    {
-        try
-        {
-            int year = std::stoi(entry.time.substr(0, 4)); // Extract year from the time string
-            yearlyTemperatures[year].push_back(entry.atTemperature);
-            // Add other temperatures if needed
-        }
-        catch (const std::exception &e)
-        {
-            // Print an error message if the conversion fails
-            std::cerr << "Error at line " << __LINE__ << ": " << e.what() << std::endl;
-            continue;
-        }
-    }
-
-    // Compute and print candlestick data for each year
-    for (const auto &[year, temperatures] : yearlyTemperatures)
-    {
-        if (temperatures.empty())
-            continue;
-
-        double open = temperatures.front();
-        double close = temperatures.back();
-        double high = *std::max_element(temperatures.begin(), temperatures.end());
-        double low = *std::min_element(temperatures.begin(), temperatures.end());
-
-        std::cout << "Year: " << year << std::endl;
-        std::cout << "Open: " << open << ", High: " << high << ", Low: " << low << ", Close: " << close << std::endl;
-        std::cout << "--------------------" << std::endl;
-    }
-}
-*/
 
 void WeatherMain::computeAndPrintCandlestickData(const std::vector<WeatherEntry> &entries)
 {
@@ -188,6 +178,8 @@ void WeatherMain::computeAndPrintCandlestickData(const std::vector<WeatherEntry>
             continue;
         }
     }
+    // To store the average temperature for the previous year
+    std::map<std::string, std::map<int, double>> countryYearlyAverageTemperatures;
 
     // Compute and print candlestick data for each country and each year
     for (const auto &[country, yearlyTemperatures] : countryYearlyTemperatures)
@@ -203,21 +195,19 @@ void WeatherMain::computeAndPrintCandlestickData(const std::vector<WeatherEntry>
 
             double high = *std::max_element(temperatures.begin(), temperatures.end());
             double low = *std::min_element(temperatures.begin(), temperatures.end());
-            // Calculate the average mean temperature for the current time frame (close)
+            // Calculate the average mean temperature for the current year (close)
             double sumCurrent = std::accumulate(temperatures.begin(), temperatures.end(), 0.0);
             double close = sumCurrent / temperatures.size();
 
-            // Calculate the average mean temperature for the previous time frame (open)
+            // Calculate the average mean temperature for the previous year (open)
             double open = 0.0;
-            // if (yearlyTemperatures.find(year - 1) != yearlyTemperatures.end())
-            // {
-            //     const auto &prevTemperatures = yearlyTemperatures[year - 1][i];
-            //     if (!prevTemperatures.empty())
-            //     {
-            //         double sumPrevious = std::accumulate(prevTemperatures.begin(), prevTemperatures.end(), 0.0);
-            //         open = sumPrevious / prevTemperatures.size();
-            //     }
-            // }
+            if (year > 1980) // Ensure there is a previous year to compare
+            {
+                open = countryYearlyAverageTemperatures[country][year - 1];
+            }
+
+            // Store the average temperature for the current year
+            countryYearlyAverageTemperatures[country][year] = close;
 
             std::cout << "Year: " << year << std::endl;
             std::cout << "Open: " << open << ", High: " << high << ", Low: " << low << ", Close: " << close << std::endl;

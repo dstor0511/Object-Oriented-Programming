@@ -1,5 +1,6 @@
 #pragma once
 #include "WeatherEntry.h"
+#include "CSVReader.h"
 #include <iostream>
 #include <vector>
 #include <map>
